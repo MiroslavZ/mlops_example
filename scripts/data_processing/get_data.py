@@ -1,21 +1,16 @@
-import subprocess
-from argparse import Namespace, ArgumentParser
+from argparse import ArgumentParser, Namespace
+from subprocess import PIPE, run
 
 # датасет взят из соревнования https://www.kaggle.com/competitions/urfuaieng2022reg2
 # для загрузки архива необходимо поместить свой токен kaggle.json в /home/username/.kaggle
 
-# COMPETITION = 'urfuaieng2022reg2'
-# FILENAME = 'urfuaieng2022reg2.zip'
-# TARGET_DIR = 'data/raw'
-
-# python3 scripts/data_processing/get_gata.py -c urfuaieng2022reg2 -f urfuaieng2022reg2.zip -d data/raw
 
 def run_command(command: str) -> None:
-    result = subprocess.run(
+    result = run(
         command,
         shell=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        stdout=PIPE,
+        stderr=PIPE,
         universal_newlines=True,
         check=True,
     )
@@ -38,9 +33,9 @@ def get_data(competition: str, filename: str, target_dir: str):
 
 def _arg_parse() -> Namespace:
     parser = ArgumentParser(description="Скрипт для получения датасета с kaggle",)
-    parser.add_argument("-c", "--competition", type=str, help="Название соревнования", required=True,)
-    parser.add_argument("-f", "--filename", type=str, help="Имя файла для сохранения", required=True,)
-    parser.add_argument("-d", "--target-dir", type=str, help="Директория для сохранения файла", required=True,)
+    parser.add_argument("-c", "--competition", type=str, help="Название соревнования", required=True, default='urfuaieng2022reg2')
+    parser.add_argument("-f", "--filename", type=str, help="Имя файла для сохранения", required=True, default='urfuaieng2022reg2.zip')
+    parser.add_argument("-d", "--target-dir", type=str, help="Директория для сохранения файла", required=True, default='data/raw')
     return parser.parse_args()
 
 
@@ -50,3 +45,4 @@ if __name__ == '__main__':
     filename = args.filename
     target_dir = args.target_dir
     get_data(competition, filename, target_dir)
+    
