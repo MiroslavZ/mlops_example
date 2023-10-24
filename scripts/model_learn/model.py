@@ -21,7 +21,7 @@ X_train = np.loadtxt(f'{SOURCE_DIR}/X_train.txt')
 y_train = np.loadtxt(f'{SOURCE_DIR}/y_train.txt')
 
 
-best_model = HistGradientBoostingRegressor(l2_regularization=0.2, learning_rate=0.04, max_iter=900, max_leaf_nodes=40, random_state=42)
+best_model = HistGradientBoostingRegressor(l2_regularization=0.2, learning_rate=0.04, max_iter=1100, max_leaf_nodes=60, random_state=42)
 best_model.fit(X_train, y_train)
 
 with open(MODEL_PATH, "wb") as fd:

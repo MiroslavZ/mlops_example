@@ -177,13 +177,13 @@ stages:
       size: 521475
     - path: scripts/model_learn/model.py
       hash: md5
-      md5: dd3077b5b2eb2da6430c1f9079dbeae6
-      size: 1089
+      md5: b3e8d3dea5e262e442da0348e15076f2
+      size: 1090
     outs:
     - path: models/best_model
       hash: md5
-      md5: e7cddb5990289b09be3490063da2b352
-      size: 671238
+      md5: 4a5501ba6a2fc4a61231bb75069ab862
+      size: 866567
   evaluating:
     cmd: python3 scripts/model_learn/evaluate.py -v data/stage5 -m models/best_model
       -s evaluate/score.json
@@ -198,8 +198,8 @@ stages:
       size: 130375
     - path: models/best_model
       hash: md5
-      md5: e7cddb5990289b09be3490063da2b352
-      size: 671238
+      md5: 4a5501ba6a2fc4a61231bb75069ab862
+      size: 866567
     - path: scripts/model_learn/evaluate.py
       hash: md5
       md5: f0253f9274ef6033883f026c39f959b2
@@ -207,5 +207,5 @@ stages:
     outs:
     - path: evaluate/score.json
       hash: md5
-      md5: 88d3e5bc442b9ca13c8dfc523731d469
-      size: 53
+      md5: 26d134c32fb20d716213c28cdb24b99a
+      size: 52
