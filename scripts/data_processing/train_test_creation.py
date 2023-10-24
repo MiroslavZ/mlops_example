@@ -15,11 +15,7 @@ args = _arg_parse()
 RAW_TRAIN_TEST_DIR = args.raw_data_dir
 MERGED_DATA_DIR = args.merged_data_dir
 TARGET_DIR = args.target_dir
-# RAW_TRAIN_TEST_DIR = 'data/raw'
-# MERGED_DATA_DIR = 'data/baselines'
-# TARGET_DIR = 'data/baselines'
 
-# python3 scripts/data_processing/train_test_creation.py -r data/raw -m data/baselines -d data/baselines
 
 train_who = pd.read_csv(f'{RAW_TRAIN_TEST_DIR}/Train_Who.csv')
 test_who = pd.read_csv(f'{RAW_TRAIN_TEST_DIR}/Test_Who.csv')

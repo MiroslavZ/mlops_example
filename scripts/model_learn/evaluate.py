@@ -18,11 +18,7 @@ args = _arg_parse()
 VAL_DATA_DIR = args.val_data_dir
 MODEL_PATH = args.model_path
 SCORE_PATH = args.score_path
-# VAL_DATA_DIR = 'data/baselines'
-# MODEL_PATH = 'models/best_model'
-# SCORE_PATH = 'evaluate/score.json'
 
-# python3 scripts/model_learn/evaluate.py -v data/baselines -m models/best_model -s evaluate/score.json
 
 def get_metrics(model, X_test, y_test):
   y_prediction_test = model.predict(X_test)  

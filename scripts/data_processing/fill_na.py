@@ -14,10 +14,7 @@ def _arg_parse() -> Namespace:
 args = _arg_parse()
 SOURCE_DIR = args.source_dir
 TARGET_DIR = args.target_dir
-# SOURCE_DIR = 'data/baselines'
-# TARGET_DIR = 'data/baselines'
 
-# python3 scripts/data_processing/fill_na.py -s data/baselines -d data/baselines
 
 train = pd.read_csv(f'{SOURCE_DIR}/train.csv')
 test = pd.read_csv(f'{SOURCE_DIR}/test.csv')

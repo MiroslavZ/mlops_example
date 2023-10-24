@@ -18,10 +18,7 @@ def _arg_parse() -> Namespace:
 args = _arg_parse()
 SOURCE_DIR = args.source_dir
 TARGET_DIR = args.target_dir
-# SOURCE_DIR = 'data/baselines'
-# TARGET_DIR = 'data/baselines'
 
-# python3 scripts/data_processing/cat_num_pipe.py -s data/baselines -d data/baselines
 
 def get_cat_num_cols(df):
   cat_columns = []

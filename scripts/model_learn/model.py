@@ -15,10 +15,7 @@ def _arg_parse() -> Namespace:
 args = _arg_parse()
 SOURCE_DIR = args.source_dir
 MODEL_PATH = args.model_path
-# SOURCE_DIR = 'data/baselines'
-# MODEL_PATH = 'models/best_model'
 
-# python3 scripts/model_learn/model.py -s data/baselines -m models/best_model
 
 X_train = np.loadtxt(f'{SOURCE_DIR}/X_train.txt')
 y_train = np.loadtxt(f'{SOURCE_DIR}/y_train.txt')

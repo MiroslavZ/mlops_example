@@ -13,10 +13,6 @@ def _arg_parse() -> Namespace:
 args = _arg_parse()
 SOURCE_DIR = args.source_dir
 TARGET_DIR = args.target_dir
-# SOURCE_DIR = 'data/raw'
-# TARGET_DIR = 'data/baselines'
-
-# python3 scripts/data_processing/preprocessing.py -s data/raw -d data/baselines
 
 # проще передать путь к директории, 
 # чем передавать отдельно путь для каждого файла

@@ -19,12 +19,7 @@ SOURCE_DIR = args.source_dir
 TARGET_VARIABLE_DIR = args.target_var_dir
 TARGET_DIR = args.target_dir
 TEST_SIZE = args.test_size
-# SOURCE_DIR = 'data/baselines'
-# TARGET_VARIABLE_DIR = 'data/raw'
-# TARGET_DIR = 'data/baselines'
-# TEST_SIZE = 0.2
 
-# python3 scripts/data_processing/train_test_split.py -t data/raw -s data/baselines -d data/baselines -ts 0.2
 
 RANDOM_STATE = 42
 
