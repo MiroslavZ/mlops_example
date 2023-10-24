@@ -1,0 +1,76 @@
+stages:
+  get-data:
+    cmd: python3 scripts/data_processing/get_data.py -c urfuaieng2022reg2 -f urfuaieng2022reg2.zip -d data/raw
+    deps:
+    - scripts/data_processing/get_data.py
+    outs:
+    - data/raw
+  merging-preprocessing:
+    cmd: python3 scripts/data_processing/preprocessing.py -s data/raw -d ./data/stage1
+    deps:
+    - data/raw/assessments.csv
+    - data/raw/courses.csv
+    - data/raw/studentAssessment.csv
+    - data/raw/studentInfo.csv
+    - data/raw/studentRegistration.csv
+    - data/raw/studentVle.csv
+    - data/raw/vle.csv
+    - scripts/data_processing/preprocessing.py
+    outs:
+    - data/stage1/merged.csv
+  train-test-creation:
+    cmd: python3 scripts/data_processing/train_test_creation.py -r data/raw -m data/stage1 -d data/stage2
+    deps:
+    - data/raw/Train_Who.csv
+    - data/raw/Test_Who.csv
+    - data/stage1/merged.csv
+    - scripts/data_processing/train_test_creation.py
+    outs:
+    - data/stage2/train.csv
+    - data/stage2/test.csv
+  fill-na:
+    cmd: python3 scripts/data_processing/fill_na.py -s data/stage2 -d data/stage3
+    deps:
+    - data/stage2/train.csv
+    - data/stage2/test.csv
+    - scripts/data_processing/fill_na.py
+    outs:
+    - data/stage3/train.csv
+    - data/stage3/test.csv
+  cat-num-pipe:
+    cmd: python3 scripts/data_processing/cat_num_pipe.py -s data/stage3 -d data/stage4
+    deps:
+    - data/stage3/train.csv
+    - data/stage3/test.csv
+    - scripts/data_processing/cat_num_pipe.py
+    outs:
+    - data/stage4/train.txt
+    - data/stage4/test.txt
+  train-test-split:
+    cmd: python3 scripts/data_processing/train_test_split.py -t data/raw -s data/stage4 -d data/stage5 -ts 0.2
+    deps:
+    - data/stage4/train.txt
+    - data/raw/Train_Target_reg.csv
+    - scripts/data_processing/train_test_split.py
+    outs:
+    - data/stage5/X_train.txt
+    - data/stage5/y_train.txt
+    - data/stage5/X_val.txt
+    - data/stage5/y_val.txt
+  learning:
+    cmd: python3 scripts/model_learn/model.py -s data/stage5 -m models/best_model
+    deps:
+    - data/stage5/X_train.txt
+    - data/stage5/y_train.txt
+    - scripts/model_learn/model.py
+    outs:
+    - models/best_model
+  evaluating:
+    cmd: python3 scripts/model_learn/evaluate.py -v data/stage5 -m models/best_model -s evaluate/score.json
+    deps:
+    - data/stage5/X_val.txt
+    - data/stage5/y_val.txt
+    - models/best_model
+    - scripts/model_learn/evaluate.py
+    outs:
+    - evaluate/score.json

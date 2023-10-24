@@ -1,0 +1,211 @@
+schema: '2.0'
+stages:
+  get-data:
+    cmd: python3 scripts/data_processing/get_data.py -c urfuaieng2022reg2 -f urfuaieng2022reg2.zip
+      -d data/raw
+    deps:
+    - path: scripts/data_processing/get_data.py
+      hash: md5
+      md5: 19b95e51ff9a9fcd2dff3fdeadb63f2b
+      size: 1896
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: 1c0b817332d9259456c4f9b22bfbcab9.dir
+      size: 461733532
+      nfiles: 11
+  merging-preprocessing:
+    cmd: python3 scripts/data_processing/preprocessing.py -s data/raw -d ./data/stage1
+    deps:
+    - path: data/raw/assessments.csv
+      hash: md5
+      md5: 6126f9d435767bcc70134b46f21c2a90
+      size: 8200
+    - path: data/raw/courses.csv
+      hash: md5
+      md5: 4c3df8a42a98a0d26b22f507007c31a8
+      size: 526
+    - path: data/raw/studentAssessment.csv
+      hash: md5
+      md5: 6fedb1c1e55023d51c6a723c9484cbe0
+      size: 3238345
+    - path: data/raw/studentInfo.csv
+      hash: md5
+      md5: cbc1dcbdc8e67b40553bfdd03d25bc15
+      size: 2411876
+    - path: data/raw/studentRegistration.csv
+      hash: md5
+      md5: adbf1d802fb0dd02a6817249730ba377
+      size: 759556
+    - path: data/raw/studentVle.csv
+      hash: md5
+      md5: b8aae6f4ffd1523319aeb56d66b17f72
+      size: 453836331
+    - path: data/raw/vle.csv
+      hash: md5
+      md5: 0e7ef38c483daca42900ca426b66f8da
+      size: 260126
+    - path: scripts/data_processing/preprocessing.py
+      hash: md5
+      md5: 9fe202dcef8d63b039e0f1a8bffd7b7c
+      size: 5586
+    outs:
+    - path: data/stage1/merged.csv
+      hash: md5
+      md5: bd7a273872993efdc45aef97b28728a6
+      size: 3988410
+  train-test-creation:
+    cmd: python3 scripts/data_processing/train_test_creation.py -r data/raw -m data/stage1
+      -d data/stage2
+    deps:
+    - path: data/raw/Test_Who.csv
+      hash: md5
+      md5: 07e2222c4ef56151f6b1cd20b80e85e5
+      size: 150504
+    - path: data/raw/Train_Who.csv
+      hash: md5
+      md5: ea6363c66c71762d98bc17d4d6815bc3
+      size: 590897
+    - path: data/stage1/merged.csv
+      hash: md5
+      md5: bd7a273872993efdc45aef97b28728a6
+      size: 3988410
+    - path: scripts/data_processing/train_test_creation.py
+      hash: md5
+      md5: 19a6e9fed2f7245114fcff20c6bfec68
+      size: 1819
+    outs:
+    - path: data/stage2/test.csv
+      hash: md5
+      md5: 367f84f4ce3cb14684684261d7df5ba8
+      size: 791766
+    - path: data/stage2/train.csv
+      hash: md5
+      md5: 7414b158465d57447ed8d82d7e2e6fdf
+      size: 3147239
+  fill-na:
+    cmd: python3 scripts/data_processing/fill_na.py -s data/stage2 -d data/stage3
+    deps:
+    - path: data/stage2/test.csv
+      hash: md5
+      md5: 367f84f4ce3cb14684684261d7df5ba8
+      size: 791766
+    - path: data/stage2/train.csv
+      hash: md5
+      md5: 7414b158465d57447ed8d82d7e2e6fdf
+      size: 3147239
+    - path: scripts/data_processing/fill_na.py
+      hash: md5
+      md5: 5ea3347cfa6ff068a323144f21691725
+      size: 4648
+    outs:
+    - path: data/stage3/test.csv
+      hash: md5
+      md5: dbd3077e79a10a06890994357301ea5a
+      size: 882637
+    - path: data/stage3/train.csv
+      hash: md5
+      md5: 6d8a03a2a3d139496224994d0f93bb58
+      size: 3535747
+  cat-num-pipe:
+    cmd: python3 scripts/data_processing/cat_num_pipe.py -s data/stage3 -d data/stage4
+    deps:
+    - path: data/stage3/test.csv
+      hash: md5
+      md5: dbd3077e79a10a06890994357301ea5a
+      size: 882637
+    - path: data/stage3/train.csv
+      hash: md5
+      md5: 6d8a03a2a3d139496224994d0f93bb58
+      size: 3535747
+    - path: scripts/data_processing/cat_num_pipe.py
+      hash: md5
+      md5: 6a692102510506cba4cbe464045816fa
+      size: 2017
+    outs:
+    - path: data/stage4/test.txt
+      hash: md5
+      md5: e25afde0b5fc6e64252c5557f8987d34
+      size: 8800650
+    - path: data/stage4/train.txt
+      hash: md5
+      md5: d3eef7850e9f781b67a73cae18f729b0
+      size: 35199900
+  train-test-split:
+    cmd: python3 scripts/data_processing/train_test_split.py -t data/raw -s data/stage4
+      -d data/stage5 -ts 0.2
+    deps:
+    - path: data/raw/Train_Target_reg.csv
+      hash: md5
+      md5: f0a8ebd41fce1be9acb541e507d09df6
+      size: 314178
+    - path: data/stage4/train.txt
+      hash: md5
+      md5: d3eef7850e9f781b67a73cae18f729b0
+      size: 35199900
+    - path: scripts/data_processing/train_test_split.py
+      hash: md5
+      md5: 8bf22b189a09b8ea2626d9c4fbe78443
+      size: 1797
+    outs:
+    - path: data/stage5/X_train.txt
+      hash: md5
+      md5: 4d2c462146a9d9d53811f2e3effb6613
+      size: 28159650
+    - path: data/stage5/X_val.txt
+      hash: md5
+      md5: 943370de0089e50c99c21a3c13103cc6
+      size: 7040250
+    - path: data/stage5/y_train.txt
+      hash: md5
+      md5: 29f6475b5432c3d09fa232872e9a64ff
+      size: 521475
+    - path: data/stage5/y_val.txt
+      hash: md5
+      md5: 952d7700095e456fef0e4dd1d513b3d8
+      size: 130375
+  learning:
+    cmd: python3 scripts/model_learn/model.py -s data/stage5 -m models/best_model
+    deps:
+    - path: data/stage5/X_train.txt
+      hash: md5
+      md5: 4d2c462146a9d9d53811f2e3effb6613
+      size: 28159650
+    - path: data/stage5/y_train.txt
+      hash: md5
+      md5: 29f6475b5432c3d09fa232872e9a64ff
+      size: 521475
+    - path: scripts/model_learn/model.py
+      hash: md5
+      md5: dd3077b5b2eb2da6430c1f9079dbeae6
+      size: 1089
+    outs:
+    - path: models/best_model
+      hash: md5
+      md5: e7cddb5990289b09be3490063da2b352
+      size: 671238
+  evaluating:
+    cmd: python3 scripts/model_learn/evaluate.py -v data/stage5 -m models/best_model
+      -s evaluate/score.json
+    deps:
+    - path: data/stage5/X_val.txt
+      hash: md5
+      md5: 943370de0089e50c99c21a3c13103cc6
+      size: 7040250
+    - path: data/stage5/y_val.txt
+      hash: md5
+      md5: 952d7700095e456fef0e4dd1d513b3d8
+      size: 130375
+    - path: models/best_model
+      hash: md5
+      md5: e7cddb5990289b09be3490063da2b352
+      size: 671238
+    - path: scripts/model_learn/evaluate.py
+      hash: md5
+      md5: f0253f9274ef6033883f026c39f959b2
+      size: 1574
+    outs:
+    - path: evaluate/score.json
+      hash: md5
+      md5: 88d3e5bc442b9ca13c8dfc523731d469
+      size: 53
